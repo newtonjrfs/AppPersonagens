@@ -1,6 +1,7 @@
 package newton.com.apppersonagens;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         int i = 0;
         for (String nome : listaNomes) {
             DadosPersonagem dadosPersonagem;
-            dadosPersonagem = new DadosPersonagem(listaIcones[i], nome);
+            dadosPersonagem = new DadosPersonagem(listaIcones[i], nome,listaDescricoes[i]);
             meuAdaptador.add(dadosPersonagem);
             i++;
         }
@@ -43,6 +44,15 @@ public class MainActivity extends AppCompatActivity {
         minhaLista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                DadosPersonagem dadosPersonagem;
+                dadosPersonagem = (DadosPersonagem) meuAdaptador.getItem(position);
+
+                Intent intent = new Intent(MainActivity.this,DescricaoActivity.class);
+                intent.putExtra("nomePersonagem",dadosPersonagem.getTitulo());
+                intent.putExtra("descricaoPersonagem",dadosPersonagem.getDescricao());
+                intent.putExtra("iconePersonagem",dadosPersonagem.getIcone());
+                startActivity(intent);
 
 
             }
@@ -54,15 +64,18 @@ public class MainActivity extends AppCompatActivity {
 class viewPersonagem{
     ImageView icone;
     TextView titulo;
+    TextView descricao;
 }
 
 class DadosPersonagem{
     int icone;
     String titulo;
+    String descricao;
 
-    public DadosPersonagem(int icone, String titulo) {
+    public DadosPersonagem(int icone, String titulo, String descricao) {
         this.icone = icone;
         this.titulo = titulo;
+        this.descricao=descricao;
     }
 
     public int getIcone() {
@@ -79,6 +92,14 @@ class DadosPersonagem{
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 }
 
